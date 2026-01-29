@@ -365,9 +365,9 @@ static void custom_parameter_monitor() {
                         std::string map_dir = g_mapping_result_dest_dir != "" ? g_mapping_result_dest_dir : map_root_dir_.string();
                         std::string map_name = g_mapping_result_file_name != "" ? g_mapping_result_file_name : "map_" + std::string(map_save_time) + ".bin";
                         #ifdef ROS2
-                            RCLCPP_INFO(rclcpp::get_logger("param_monitor"), "Map is saved on device, now transfering to [%s/%s]", map_dir.c_str(), map_name.c_str());
+                            RCLCPP_INFO(rclcpp::get_logger("param_monitor"), "Map is saved on device, now transferring to [%s/%s]", map_dir.c_str(), map_name.c_str());
                         #else
-                            ROS_INFO("Map is saved on device, now transfering to [%s/%s]", map_dir.c_str(), map_name.c_str());
+                            ROS_INFO("Map is saved on device, now transferring to [%s/%s]", map_dir.c_str(), map_name.c_str());
                         #endif
                         int ret = lidar_get_mapping_result(odinDevice, map_dir.c_str(), map_name.c_str());
                         if (ret < 0 ) {
@@ -378,9 +378,9 @@ static void custom_parameter_monitor() {
                             #endif
                         } else if (ret == 0) {
                             #ifdef ROS2
-                                RCLCPP_INFO(rclcpp::get_logger("param_monitor"), "map get start success, now transfering...");
+                                RCLCPP_INFO(rclcpp::get_logger("param_monitor"), "map get start success, now transferring...");
                             #else
-                                ROS_INFO("map get start success, now transfering...");
+                                ROS_INFO("map get start success, now transferring...");
                             #endif
                         } else {
                             #ifdef ROS2
@@ -394,9 +394,9 @@ static void custom_parameter_monitor() {
 
                 } else if (result == -2) {
                     #ifdef ROS2
-                        RCLCPP_INFO(rclcpp::get_logger("param_monitor"),"file transfering, try again later...");
+                        RCLCPP_INFO(rclcpp::get_logger("param_monitor"),"file transferring, try again later...");
                     #else
-                        ROS_INFO("file transfering, try again later...");
+                        ROS_INFO("file transferring, try again later...");
                     #endif
                 } else {
                     #ifdef ROS2
