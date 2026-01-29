@@ -1,4 +1,12 @@
 register_keys:
+  # Topic namespace prefix (no leading/trailing slash). Topics: {topic_prefix}/imu, {topic_prefix}/image, etc.
+  topic_prefix: "odin1"
+  # Frame IDs for TF and message headers
+  imu_frame_id: "imu_link"
+  base_frame_id: "odin1_base_link"
+  odom_frame_id: "odom"
+  map_frame_id: "map"
+
   # if off, allow connection even if usb connection is below usb 3.0
   # ATTENTION: usb 3.0 is always recommended, as advance functionality like SLAM mode requires usb 3.0 for reliable map file transfer
   strict_usb3.0_check: 0  # 0: off: 1: on;

@@ -238,7 +238,19 @@ Odin_ROS_Driver/                // ROS1/ROS2 driver package
 
 
 ### 4.3 ROS topics
-Internal parameters of the Odin ROS driver are defined in config/control_command.yaml. Below are descriptions of the commonly used parameters:
+Internal parameters of the Odin ROS driver are defined in config/control_command.yaml. You can change the topic namespace and frame IDs without recompiling by editing the following keys in `register_keys`:
+
+| control_command.yaml | Default | Description |
+|---------------------|---------|-------------|
+| topic_prefix        | "odin1" | Topic namespace prefix (no leading/trailing slash). All topics are published under `{topic_prefix}/...` (e.g. `{topic_prefix}/imu`, `{topic_prefix}/image`). |
+| imu_frame_id        | "imu_link" | Frame ID for IMU message headers. |
+| base_frame_id       | "odin1_base_link" | Frame ID for base link (point clouds, odometry child_frame_id, TF child). |
+| odom_frame_id       | "odom"  | Frame ID for odometry header and TF parent. |
+| map_frame_id        | "map"   | Frame ID for map frame (e.g. intensity image, relocalization TF). |
+
+If you change `topic_prefix`, ensure downstream nodes (e.g. depth_image_ros_node) use matching topic names via their parameters (`cloud_raw_topic`, etc.) or RViz topic subscriptions.
+
+Below are descriptions of the commonly used parameters for streams and features:
 
 | Topic               |control_command.yaml  | Detailed Description |
 |---------------------|----------------------|----------------------|
@@ -318,6 +330,7 @@ float32 rgb           // RGB value
 | custom_init_pos        | Initialization Position (currently unused). |
 | relocalization_map_abs_path        | Absolute Path to Map File: Used for relocalization mode. |
 | mapping_result_dest_dir and mapping_result_file_name| Path and Name for Saving Maps in Mapping Mode: If not specified, default values will be used. |
+| topic_prefix, imu_frame_id, base_frame_id, odom_frame_id, map_frame_id | Topic namespace and TF/message frame IDs. Change these to integrate with other robots or frameworks without recompiling. |
 
 ## 5. FAQ
 ### 5.1 Segmentation fault upon re-launching host SDK

@@ -1502,11 +1502,9 @@ int main(int argc, char *argv[])
 #ifdef ROS2
     rclcpp::init(argc, argv);
     auto node = std::make_shared<rclcpp::Node>("lydros_node");
-    g_ros_object = std::make_shared<MultiSensorPublisher>(node);
 #else
     ros::init(argc, argv, "lydros_node");
     ros::NodeHandle nh;
-    g_ros_object = new MultiSensorPublisher(nh);
 #endif
 
     // Register signal handlers for Ctrl+C
@@ -1587,6 +1585,18 @@ int main(int argc, char *argv[])
         g_relocalization_map_abs_path = get_key_str_value("relocalization_map_abs_path", "");
         g_mapping_result_dest_dir = get_key_str_value("mapping_result_dest_dir", "");
         g_mapping_result_file_name = get_key_str_value("mapping_result_file_name", "");
+
+        std::string topic_prefix = get_key_str_value("topic_prefix", "odin1");
+        std::string imu_frame_id = get_key_str_value("imu_frame_id", "imu_link");
+        std::string base_frame_id = get_key_str_value("base_frame_id", "odin1_base_link");
+        std::string odom_frame_id = get_key_str_value("odom_frame_id", "odom");
+        std::string map_frame_id = get_key_str_value("map_frame_id", "map");
+
+        #ifdef ROS2
+            g_ros_object = std::make_shared<MultiSensorPublisher>(node, topic_prefix, imu_frame_id, base_frame_id, odom_frame_id, map_frame_id);
+        #else
+            g_ros_object = new MultiSensorPublisher(nh, topic_prefix, imu_frame_id, base_frame_id, odom_frame_id, map_frame_id);
+        #endif
 
         g_custom_map_mode = g_parser->getCustomMapMode(2);
 
